@@ -1,0 +1,195 @@
+$font-black: #050510;
+$content-active: #6534FF;
+$content-grey: #F7F7F8;
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
+    background-color: rgba(5, 5, 16, 0.16);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.modalBlock {
+    z-index: 11;
+    max-width: 373px;
+    width: calc(100% - 24px);
+    border-radius: 20px;
+    margin: 0 auto;
+    background-color: white;
+    opacity: 0;
+    flex-direction: column;
+
+    .modalBlockContent {
+        width: calc(100% - 36px);
+        margin: 0 auto;
+
+        .modalBlockHeader {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 24px;
+            margin-bottom: 36px;
+
+            h3 {
+                font-weight: 600;
+                font-size: 20px;
+                line-height: 24px;
+            }
+
+            .modalBlockHeaderBlank {
+                width: 24px;
+                height: 24px;
+            }
+
+        }
+
+        .radioBlock {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 40px;
+
+            &:last-of-type {
+                margin-bottom: 28px;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+            }
+
+            .radioButtonBlock {
+                width: 22px;
+                height: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 14px;
+
+                input {
+                    display: none;
+                }
+
+                .radioCustom {
+                    width: 20px;
+                    height: 20px;
+
+                    border-radius: 50%;
+                    border: 2px solid $content-active;
+                    transition: 0.2s;
+                }
+
+                .selectedRadio {
+                    width: 8px;
+                    height: 8px;
+                    border: 7px solid $content-active;
+                }
+            }
+        }
+    }
+
+}
+
+
+.modalVisible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.modalBlockVisible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.container {
+    border-bottom: 0.5px solid $content-grey;
+    background-color: white;
+    position: fixed;
+    top: 0;
+
+    .content {
+        width: calc(100vw - 48px);
+        margin: 0 24px;
+        margin-top: 8px;
+        padding-top: 8px;
+        align-items: center;
+
+
+        h2 {
+            margin-left: 8px;
+            margin-bottom: 12px;
+            color: $font-black;
+            line-height: 28px
+        }
+
+        .searchContainer {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 24px);
+            height: 24px;
+            border-radius: 16px;
+            background-color: $content-grey;
+            padding: 8px 12px;
+            margin: 6px 0;
+            flex-direction: row;
+
+            .searchInput {
+                border: 0;
+                background-color: inherit;
+                outline: none;
+                caret-color: $content-active;
+                font-size: 15px;
+                width: 100%;
+                align-items: center;
+                margin: 6px 8px;
+                color: $font-black;
+                cursor: default;
+
+                &::placeholder {
+                    color: #C3C3C6;
+                    opacity: 1;
+                }
+
+                &:focus::placeholder {
+                    opacity: 0;
+                }
+            }
+        }
+
+        .departmentsContainer {
+            display: flex;
+            height: 36px;
+            flex-direction: row;
+            overflow-x: auto;
+            scrollbar-width: none;
+
+            .department {
+                padding: 8px 12px;
+                color: #97979B;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .selectedDepartment {
+        border-bottom: $content-active 2px solid;
+
+        p {
+            color: $font-black;
+            font-weight: 600;
+        }
+    }
+}

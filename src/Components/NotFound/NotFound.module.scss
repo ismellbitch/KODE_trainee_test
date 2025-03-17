@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 24px);
+    margin: 0 auto;
+    height: auto;
+    margin-top: calc(30vh + 139px);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+            width: 56px;
+            height: 56px;
+        }
+
+        .errorHeader {
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 22px;
+            margin-bottom: 12px;
+        }
+
+        .desc {
+            color: #97979B;
+            margin-bottom: 12px;
+        }
+
+        .link {
+            color: #6534FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,125 @@
+.headerContainer {
+    background-color: #F7F7F8;
+
+    .headerContent {
+        width: calc(100% - 48px);
+        margin: 0 auto;
+
+        .goBackBlock {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding-top: 22px;
+            margin-bottom: 26px;
+            cursor: pointer;
+
+            .goBackSvg {
+                width: 9px;
+                height: 15px;
+            }
+        }
+
+
+        .userHeader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            flex-direction: column;
+
+            .userProfilePicture {
+                width: 104px;
+                height: 104px;
+                margin-bottom: 24px;
+            }
+
+            .userNameAndTag {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 12px;
+
+                .name {
+                    font-size: 28px;
+                    font-weight: 700;
+                    line-height: 28px;
+                    margin-right: 4px;
+                }
+
+                .tag {
+                    font-size: 17px;
+                    font-weight: 400;
+                    color: #97979B;
+                }
+            }
+
+            .userDepartment {
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 16px;
+                color: #55555C;
+                margin-bottom: 24px;
+            }
+        }
+    }
+
+}
+
+.infoContainer {
+    .infoContent {
+        width: calc(100% - 36px);
+        margin: 0 auto;
+
+        .infoRowFirst {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            height: 60px;
+            margin-top: 8px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #F7F7F8;
+
+            .userBirthday {
+                display: flex;
+                flex-direction: row;
+
+                img {
+                    margin-right: 14px;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .userInfo {
+                    font-weight: 500;
+                    line-height: 20px;
+                }
+
+                .userAge {
+                    line-height: 20px;
+                    color: #97979B;
+                }
+            }
+        }
+
+        .infoRow {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            height: 60px;
+
+            img {
+                margin-right: 14px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .userInfo {
+                font-weight: 500;
+                line-height: 20px;
+            }
+        }
+    }
+}

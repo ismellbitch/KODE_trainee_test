@@ -1,0 +1,101 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 48px);
+    margin: 16px 12px;
+    padding: 0 6px;
+    margin-top: 139px;
+
+    .userBlock {
+        display: flex;
+        width: 100%;
+        height: 80px;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 12px;
+        text-decoration: none;
+        padding: 0 6px;
+        border-radius: 12px;
+        transition: 0.01s;
+
+        &:hover {
+            background-color: #F4F4F5;
+            transition: 0.01s;
+        }
+
+        .userAvatar {
+            width: 72px;
+            height: 72px;
+            margin-right: 16px;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .userDataBlock {
+            display: flex;
+            flex-direction: column;
+
+            .userNameAndTag {
+                display: flex;
+                flex-direction: row;
+                font-weight: 500;
+                align-items: center;
+
+                .userName {
+                    font-size: 16px;
+                    margin-right: 4px;
+                    color: #050510;
+                    line-height: 20px;
+                    margin-bottom: 3px;
+                    user-select: none;
+                }
+
+                .userTag {
+                    line-height: 18px;
+                    font-size: 14px;
+                    color: #97979B;
+                    user-select: none;
+                }
+            }
+
+            .userDepartment {
+                font-size: 13px;
+                line-height: 16px;
+                color: #55555C;
+                user-select: none;
+            }
+        }
+    }
+
+    .skeleton {
+        margin-bottom: 20px;
+    }
+
+    .notFoundBlock {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: calc(100% - 24px);
+        margin: 0 auto;
+        height: auto;
+        margin-top: 30vh;
+        text-align: center;
+
+        .nobodyFoundText {
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 22px;
+            color: #050510;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tryToEditText {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #97979B;
+        }
+    }
+}
