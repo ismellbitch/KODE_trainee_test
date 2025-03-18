@@ -24,20 +24,6 @@ function Main() {
     const dispatch = useDispatch()
 
     const isSearchNeeded = useRef(false);
-    const [isUsersLoaded, setIsUsersLoaded] = useState(false);
-    const [usersList, setUsersList] = useState([
-        {
-            avatarUrl: '',
-            birthday: '',
-            department: '',
-            firstName: '',
-            id: '',
-            lastName: '',
-            phone: '',
-            position: '',
-            userTag: ''
-        }
-    ])
 
     useEffect(() => {
         if (window.location.search) {
@@ -51,69 +37,52 @@ function Main() {
         }
     }, [])
 
-    // const fetchUsers = async () => {
-    //     setIsUsersLoaded(false);
-    //     await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=${department}`)
-    //         .then((res) => setUsersList(res.data.items))
-    //         .then(() => setIsUsersLoaded(true));
-    // }
-
     const fetchUsers = async () => {
-        setIsUsersLoaded(false);
-        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=${department}`);
+        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
         if (response) {
-            console.log(response.data.items)
             return response.data.items;
         } else {
-            console.log('zzz')
+            return null;
         }
     }
 
-    const { data, isLoading, isError } = useQuery({
+    const filterByDepartment = (obj) => {
+        if (obj.department == department || department == 'all') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const filterBySearch = (obj) => {
+        const fullName = obj.firstName + ' ' + obj.lastName;
+        if (fullName.toLocaleLowerCase().includes(searchText.toLowerCase().trim())) {
+            return true;
+        } else if (obj.userTag.toLowerCase().includes(searchText.toLowerCase().trim())) {
+            return true;
+        } return false;
+    }
+
+    const sortByParam = (a, b) => {
+        if (sortProperty == sorts[0].key) {
+            const aFullName = a.firstName + ' ' + a.lastName;
+            const bFullName = b.firstName + ' ' + b.lastName;
+            if (aFullName > bFullName) {
+                return 1;
+            } else return -1;
+        } else if (sortProperty == sorts[1].key) {
+            if (a.birthday > b.birthday) {
+                return 1;
+            } else return -1;
+        }
+    }
+
+    const { data, isLoading } = useQuery({
         queryKey: ['users'],
         queryFn: fetchUsers,
-        staleTime: 300000,
-        gcTime: 300000,
         refetchInterval: 300000,
         select: (data) => {
-            return data.filter(((obj) => {
-                if (obj.department == department || department == 'all') {
-                    return true;
-                } else {
-                    return false;
-                }
-            })).filter((obj) => {
-                const fullName = obj.firstName + ' ' + obj.lastName;
-                if (fullName.toLocaleLowerCase().includes(searchText.toLowerCase().trim())) {
-                    return true;
-                } else if (obj.userTag.toLowerCase().includes(searchText.toLowerCase().trim())) {
-                    return true;
-                } return false;
-            }).sort((a, b) => {
-                if (sortProperty == sorts[0].key) {
-                    const aFullName = a.firstName + ' ' + a.lastName;
-                    const bFullName = b.firstName + ' ' + b.lastName;
-                    if (aFullName > bFullName) {
-                        return 1;
-                    } else return -1;
-                } else if (sortProperty == sorts[1].key) {
-                    if (a.birthday > b.birthday) {
-                        return 1;
-                    } else return -1;
-                }
-            }).map((item) => (
-                <NavLink to={`/users/${item.id}`} key={item.id} state={{ item }} className={styles.userBlock} >
-                    {/* Подключаю заглушки потому что картинки с API не грузятся */}
-                    <img src={blankProfilePicture} alt='' className={styles.userAvatar} />
-                    <div className={styles.userDataBlock}>
-                        <div className={styles.userNameAndTag}>
-                            <p className={styles.userName}>{item.firstName} {item.lastName}</p>
-                            <p className={styles.userTag}>{item.userTag}</p>
-                        </div>
-                        <p className={styles.userDepartment}>{departments.find((dep) => dep.key == item.department)?.value}</p>
-                    </div>
-                </NavLink>
-            ))
+            return data
         }
     });
 
@@ -127,22 +96,44 @@ function Main() {
 
 
             navigate(`?${queryString}`)
-
-            if (searchText) {
-                usersList.filter(obj => {
-                    if (obj.firstName.toLocaleLowerCase().includes(searchText.toLowerCase())) {
-                        return true;
-                    } else return false;
-                })
-            }
         }
     }, [department, sortProperty, searchText])
 
     const skeletons = Array.from({ length: 12 }).map((item, index) => <UsersSkeleton className={styles.skeleton} key={index} />);
 
+    const renderUsersList = () => {
+        const usersToRender = data.filter(((obj) => filterByDepartment(obj)))
+            .filter((obj) => filterBySearch(obj))
+            .sort((a, b) => sortByParam(a, b))
+
+        if (usersToRender.length > 0) {
+            return usersToRender.map((item) => (
+                <NavLink to={`/users/${item.id}`} key={item.id} state={{ item }} className={styles.userBlock} >
+                    {/* Подключаю заглушки потому что картинки с API не грузятся */}
+                    <img src={blankProfilePicture} alt='' className={styles.userAvatar} />
+                    <div className={styles.userDataBlock}>
+                        <div className={styles.userNameAndTag}>
+                            <p className={styles.userName}>{item.firstName} {item.lastName}</p>
+                            <p className={styles.userTag}>{item.userTag}</p>
+                        </div>
+                        <p className={styles.userDepartment}>{departments.find((dep) => dep.key == item.department)?.value}</p>
+                    </div>
+                </NavLink>
+            ))
+        } else {
+            return (
+                <div className={styles.notFoundBlock}>
+                    <img src={notFound} alt="" />
+                    <p className={styles.errorHeader}>Мы никого не нашли</p>
+                    <p className={styles.errorDesc}>Попробуй скорректировать запрос</p>
+                </div>
+            )
+        }
+    }
+
     return (
         <section className={styles.content}>
-            {isLoading ? skeletons : data}
+            {isLoading ? skeletons : renderUsersList()}
         </section>
     )
 }

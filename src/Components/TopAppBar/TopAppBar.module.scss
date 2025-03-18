@@ -170,7 +170,8 @@ $content-grey: #F7F7F8;
 
         .departmentsContainer {
             display: flex;
-            height: 36px;
+            align-items: flex-end;
+            height: 44px;
             flex-direction: row;
             overflow-x: auto;
             scrollbar-width: none;

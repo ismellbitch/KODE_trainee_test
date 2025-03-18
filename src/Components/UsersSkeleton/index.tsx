@@ -11,7 +11,7 @@ const UsersSkeleton = (props) => (
         {...props}
     >
         <rect x="88" y="19" rx="6" ry="6" width="144" height="16" />
-        <rect x="0" y="0" rx="100" ry="100" width="72" height="72" />
+        <rect x="6" y="0" rx="100" ry="100" width="72" height="72" />
         <rect x="88" y="47" rx="6" ry="6" width="80" height="12" />
     </ContentLoader>
 )
