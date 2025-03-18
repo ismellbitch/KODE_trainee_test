@@ -5,7 +5,7 @@ import blankProfilePicture from '../../assets/blankProfilePicture.png'
 import notFound from '../../assets/notFound.svg'
 import UsersSkeleton from '../Skeletons/UsersSkeleton'
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilters } from '../../redux/slices/filtersSlice'
