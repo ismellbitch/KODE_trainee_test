@@ -63,6 +63,15 @@
                 margin-bottom: 24px;
             }
         }
+
+        .headerSkeletonContainer {
+            display: flex;
+            justify-content: center;
+
+            .headerSkeleton {
+                margin-bottom: 24px;
+            }
+        }
     }
 
 }

@@ -3,7 +3,7 @@ import styles from './Main.module.scss'
 import axios from "axios"
 import blankProfilePicture from '../../assets/blankProfilePicture.png'
 import notFound from '../../assets/notFound.svg'
-import UsersSkeleton from '../UsersSkeleton'
+import UsersSkeleton from '../Skeletons/UsersSkeleton'
 
 import { useEffect, useRef, useState } from "react"
 import { RootState } from '../../redux/store'
@@ -23,8 +23,6 @@ function Main() {
     const searchText = useSelector((state: RootState) => state.filters?.search)
     const dispatch = useDispatch()
 
-    const isSearchNeeded = useRef(false);
-
     useEffect(() => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1));
@@ -32,8 +30,6 @@ function Main() {
             dispatch(setFilters({
                 ...params
             }));
-
-            isSearchNeeded.current = true;
         }
     }, [])
 
@@ -46,6 +42,7 @@ function Main() {
         }
     }
 
+    // Изначально я делал фильтацию по отделам через запросы к API, но после реализации кэширования решил, что целесообразнее будет фильтровать список на клиенте
     const filterByDepartment = (obj) => {
         if (obj.department == department || department == 'all') {
             return true;
@@ -81,9 +78,6 @@ function Main() {
         queryKey: ['users'],
         queryFn: fetchUsers,
         refetchInterval: 300000,
-        select: (data) => {
-            return data
-        }
     });
 
     useEffect(() => {

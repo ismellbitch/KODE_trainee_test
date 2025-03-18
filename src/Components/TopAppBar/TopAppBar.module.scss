@@ -175,6 +175,8 @@ $content-grey: #F7F7F8;
             flex-direction: row;
             overflow-x: auto;
             scrollbar-width: none;
+            border-bottom: 0;
+            transition: 0.03s ease-in-out;
 
             .department {
                 padding: 8px 12px;
@@ -187,6 +189,7 @@ $content-grey: #F7F7F8;
 
     .selectedDepartment {
         border-bottom: $content-active 2px solid;
+        transition: 0.03s ease-in-out;
 
         p {
             color: $font-black;

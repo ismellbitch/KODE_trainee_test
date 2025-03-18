@@ -1,36 +1,133 @@
 import goBackSvg from '../../assets/goBack.svg'
 import styles from './Details.module.scss'
+import axios from 'axios'
 import blank from '../../assets/blankProfilePicture.png'
 import starSvg from '../../assets/star.svg'
 import phoneSvg from '../../assets/phone.svg'
 
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { departments } from '../../data/departments'
+import { useQuery } from '@tanstack/react-query'
+import DetailsSkeleton from '../Skeletons/DetailsHeaderSkeleton'
+import WideParamSkeleton from '../Skeletons/WideParamSkeleton'
+import ThinParamSkeleton from '../Skeletons/ThinParamSkeleton'
 
 
 function Details() {
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const userData = location.state.item;
+    const fetchUsers = async () => {
+        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
+        if (response) {
+            return response.data.items;
+        } else {
+            return null;
+        }
+    }
 
-    console.log(window.location.pathname.substring(7));
+    const { data, isLoading } = useQuery({
+        queryKey: ['userDetails'],
+        queryFn: fetchUsers,
+        select: (data) => {
+            return data.find((item) => item.id == window.location.pathname.substring(7))
+        }
+    })
 
-    return (
-        <section>
+    const renderUserDetails = () => {
+        const currentDate = new Date();
+        const birthdayDate = new Date(data.birthday)
+
+        const months = ["января", "февраля", "марта",
+            "апреля", "мая", "июня",
+            "июля", "августа", "сентября",
+            "октября", "ноября", "декабря"];
+
+        const birthdayToOutput = birthdayDate.getDate() + ' ' + months[birthdayDate.getMonth()] + ' ' + birthdayDate.getFullYear();
+
+
+        const timeDifference = currentDate.getTime() - birthdayDate.getTime();
+        const millisecondsInYear = 31447600000;
+        const yearsDifference = timeDifference / millisecondsInYear;
+        const fullYears = Math.floor(yearsDifference);
+
+        const getFullYearsEnding = (num) => {
+            if (num >= 5 && num <= 20) {
+                return ' лет';
+            }
+
+            const lastDigit = num % 10;
+
+            switch (lastDigit) {
+                case 1:
+                    return ' год';
+                case 2:
+                case 3:
+                case 4:
+                    return ' года';
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    return ' лет';
+            }
+        }
+
+
+        const countryCode = data.phone.substring(0, 2);
+        const operatorCode = data.phone.substring(2, 5);
+        const threeNums = data.phone.substring(5, 8);
+        const firstTwoNums = data.phone.substring(8, 10);
+        const secondTwoNums = data.phone.substring(10, 12);
+
+        const phoneToOutput = countryCode + ' (' + operatorCode + ') ' + threeNums + ' ' + firstTwoNums + ' ' + secondTwoNums;
+
+        return (
+            <>
+                <div className={styles.headerContainer}>
+                    <div className={styles.headerContent}>
+                        <div className={styles.goBackBlock} onClick={() => navigate('/')}>
+                            <img src={goBackSvg} className={styles.goBackSvg} />
+                        </div>
+                        <div className={styles.userHeader}>
+                            <img src={blank} alt="" className={styles.userProfilePicture} />
+                            <div className={styles.userNameAndTag}>
+                                <p className={styles.name}>{data.firstName}</p>
+                                <p className={styles.name}>{data.lastName}</p>
+                                <p className={styles.tag}>{data.userTag}</p>
+                            </div>
+                            <p className={styles.userDepartment}>{departments.find((dep) => dep.key == data.department)?.value}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.infoContainer}>
+                    <div className={styles.infoContent}>
+                        <div className={styles.infoRowFirst}>
+                            <div className={styles.userBirthday}>
+                                <img src={starSvg} alt="" />
+                                <p className={styles.userInfo}>{birthdayToOutput}</p>
+                            </div>
+                            <p className={styles.userAge}>{fullYears} {getFullYearsEnding(fullYears)}</p>
+                        </div>
+                        <div className={styles.infoRow}>
+                            <img src={phoneSvg} alt="" />
+                            <p className={styles.userInfo}>{phoneToOutput}</p>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+    const renderSkeleton =
+        <>
             <div className={styles.headerContainer}>
                 <div className={styles.headerContent}>
                     <div className={styles.goBackBlock} onClick={() => navigate('/')}>
                         <img src={goBackSvg} className={styles.goBackSvg} />
                     </div>
-                    <div className={styles.userHeader}>
-                        <img src={blank} alt="" className={styles.userProfilePicture} />
-                        <div className={styles.userNameAndTag}>
-                            <p className={styles.name}>{userData.firstName}</p>
-                            <p className={styles.name}>{userData.lastName}</p>
-                            <p className={styles.tag}>{userData.userTag}</p>
-                        </div>
-                        <p className={styles.userDepartment}>{departments.find((dep) => dep.key == userData.department)?.value}</p>
+                    <div className={styles.headerSkeletonContainer}>
+                        <DetailsSkeleton className={styles.headerSkeleton} />
                     </div>
                 </div>
             </div>
@@ -39,16 +136,21 @@ function Details() {
                     <div className={styles.infoRowFirst}>
                         <div className={styles.userBirthday}>
                             <img src={starSvg} alt="" />
-                            <p className={styles.userInfo}>5 июня 1996</p>
+                            <WideParamSkeleton className={styles.userInfo} />
                         </div>
-                        <p className={styles.userAge}>24 года</p>
+                        <ThinParamSkeleton className={styles.userAge} />
                     </div>
                     <div className={styles.infoRow}>
                         <img src={phoneSvg} alt="" />
-                        <p className={styles.userInfo}>+7 (999) 900 90 90</p>
+                        <WideParamSkeleton className={styles.userInfo} />
                     </div>
                 </div>
             </div>
+        </>
+
+    return (
+        <section>
+            {isLoading ? renderSkeleton : renderUserDetails()}
         </section>
     )
 }
