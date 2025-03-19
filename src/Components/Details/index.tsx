@@ -50,7 +50,7 @@ function Details() {
         const yearsDifference = timeDifference / millisecondsInYear;
         const fullYears = Math.floor(yearsDifference);
 
-        const getFullYearsEnding = (num) => {
+        const getFullYearsEnding = (num: number) => {
             if (num >= 5 && num <= 20) {
                 return ' лет';
             }

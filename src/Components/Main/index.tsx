@@ -13,6 +13,7 @@ import { NavLink, useNavigate } from 'react-router'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
 import { useQuery } from '@tanstack/react-query'
+import { User } from '../../types/user'
 
 
 function Main() {
@@ -33,17 +34,17 @@ function Main() {
         }
     }, [])
 
-    const fetchUsers = async () => {
-        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
+    const fetchUsers = async (): Promise<User[]> => {
+        const response = await axios.get<{ items: User[] }>(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
         if (response) {
             return response.data.items;
         } else {
-            return null;
+            return [];
         }
     }
 
     // Изначально я делал фильтацию по отделам через запросы к API, но после реализации кэширования решил, что целесообразнее будет фильтровать список на клиенте
-    const filterByDepartment = (obj) => {
+    const filterByDepartment = (obj: User) => {
         if (obj.department == department || department == 'all') {
             return true;
         } else {
@@ -51,7 +52,7 @@ function Main() {
         }
     }
 
-    const filterBySearch = (obj) => {
+    const filterBySearch = (obj: User) => {
         const fullName = obj.firstName + ' ' + obj.lastName;
         if (fullName.toLocaleLowerCase().includes(searchText.toLowerCase().trim())) {
             return true;
@@ -60,21 +61,21 @@ function Main() {
         } return false;
     }
 
-    const sortByParam = (a, b) => {
+    const sortByParam = (a: User, b: User): number => {
         if (sortProperty == sorts[0].key) {
             const aFullName = a.firstName + ' ' + a.lastName;
             const bFullName = b.firstName + ' ' + b.lastName;
             if (aFullName > bFullName) {
                 return 1;
             } else return -1;
-        } else if (sortProperty == sorts[1].key) {
+        } else {
             if (a.birthday > b.birthday) {
                 return 1;
             } else return -1;
         }
     }
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading } = useQuery<User[]>({
         queryKey: ['users'],
         queryFn: fetchUsers,
         refetchInterval: 300000,
@@ -96,12 +97,13 @@ function Main() {
     const skeletons = Array.from({ length: 12 }).map((item, index) => <UsersSkeleton className={styles.skeleton} key={index} />);
 
     const renderUsersList = () => {
-        const usersToRender = data.filter(((obj) => filterByDepartment(obj)))
+        const usersToRender = data ? data.filter(((obj) => filterByDepartment(obj)))
             .filter((obj) => filterBySearch(obj))
             .sort((a, b) => sortByParam(a, b))
+            : []
 
         if (usersToRender.length > 0) {
-            return usersToRender.map((item) => (
+            return usersToRender.map((item: User) => (
                 <NavLink to={`/users/${item.id}`} key={item.id} state={{ item }} className={styles.userBlock} >
                     {/* Подключаю заглушки потому что картинки с API не грузятся */}
                     <img src={blankProfilePicture} alt='' className={styles.userAvatar} />
