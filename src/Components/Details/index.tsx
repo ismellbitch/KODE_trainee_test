@@ -26,6 +26,8 @@ function Details() {
 
     const theme = useSelector((state: RootState) => state.themes?.theme)
 
+    const lang = useSelector((state: RootState) => state.languages?.language)
+
     const dispatch = useDispatch()
 
     useMemo(() => {
@@ -41,6 +43,7 @@ function Details() {
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
         localStorage.setItem('theme', theme == 'dark' ? 'dark' : 'light ')
     }, [theme])
+
 
     const fetchUsers = async () => {
         const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
@@ -67,10 +70,43 @@ function Details() {
         const currentDate = new Date();
         const birthdayDate = new Date(data.birthday)
 
-        const months = ["января", "февраля", "марта",
-            "апреля", "мая", "июня",
-            "июля", "августа", "сентября",
-            "октября", "ноября", "декабря"];
+        // const months = ["января", "февраля", "марта",
+        //     "апреля", "мая", "июня",
+        //     "июля", "августа", "сентября",
+        //     "октября", "ноября", "декабря"];
+
+        const monthsLocalization = [{
+            ru: [
+                "января",
+                "февраля",
+                "марта",
+                "апреля",
+                "мая",
+                "июня",
+                "июля",
+                "августа",
+                "сентября",
+                "октября",
+                "ноября",
+                "декабря"
+            ],
+            en: [
+                "january",
+                "february",
+                "march",
+                "april",
+                "may",
+                "june",
+                "july",
+                "august",
+                "september",
+                "october",
+                "november",
+                "december"
+            ]
+        }]
+
+        const months = lang == 'ru' ? monthsLocalization[0].ru : monthsLocalization[0].en;
 
         const birthdayToOutput = birthdayDate.getDate() + ' ' + months[birthdayDate.getMonth()] + ' ' + birthdayDate.getFullYear();
 
@@ -80,7 +116,7 @@ function Details() {
         const yearsDifference = timeDifference / millisecondsInYear;
         const fullYears = Math.floor(yearsDifference);
 
-        const getFullYearsEnding = (num: number) => {
+        const getFullYearsEndingRu = (num: number) => {
             if (num >= 5 && num <= 20) {
                 return ' лет';
             }
@@ -103,6 +139,15 @@ function Details() {
             }
         }
 
+        const getFullYearsEndingEn = (num: number) => {
+            if (num == 1) {
+                return ' year old';
+            }
+            return ' years old';
+        }
+
+        const getFullYearsEnding = lang == 'ru' ? getFullYearsEndingRu : getFullYearsEndingEn;
+
 
         const countryCode = data.phone.substring(0, 2);
         const operatorCode = data.phone.substring(2, 5);
@@ -112,6 +157,7 @@ function Details() {
 
         const phoneToOutput = countryCode + ' (' + operatorCode + ') ' + threeNums + ' ' + firstTwoNums + ' ' + secondTwoNums;
 
+        const findDepartment = departments.find((dep) => dep.key == data.department);
 
 
         return (
@@ -128,7 +174,7 @@ function Details() {
                                 <p className={styles.name}>{data.lastName}</p>
                                 <p className={styles.tag}>{data.userTag}</p>
                             </div>
-                            <p className={styles.userDepartment}>{departments.find((dep) => dep.key == data.department)?.value}</p>
+                            <p className={styles.userDepartment}>{lang == 'ru' ? findDepartment?.valueRu : findDepartment?.valueEn}</p>
                         </div>
                     </div>
                 </div>

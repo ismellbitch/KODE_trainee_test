@@ -22,6 +22,9 @@ function Main() {
     const department = useSelector((state: RootState) => state.filters?.department)
     const sortProperty = useSelector((state: RootState) => state.filters?.sortProperty)
     const searchText = useSelector((state: RootState) => state.filters?.search)
+
+    const lang = useSelector((state: RootState) => state.languages?.language)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -103,19 +106,24 @@ function Main() {
             : []
 
         if (usersToRender.length > 0) {
-            return usersToRender.map((item: User) => (
-                <NavLink to={`/users/${item.id}`} key={item.id} state={{ item }} className={styles.userBlock} >
-                    {/* Подключаю заглушки потому что картинки с API не грузятся */}
-                    <img src={blankProfilePicture} alt='' className={styles.userAvatar} />
-                    <div className={styles.userDataBlock}>
-                        <div className={styles.userNameAndTag}>
-                            <p className={styles.userName}>{item.firstName} {item.lastName}</p>
-                            <p className={styles.userTag}>{item.userTag}</p>
+
+            return usersToRender.map((item: User) => {
+                const findDepartment = departments.find((dep) => dep.key == item.department);
+
+                return (
+                    <NavLink to={`/users/${item.id}`} key={item.id} state={{ item }} className={styles.userBlock} >
+                        {/* Подключаю заглушки потому что картинки с API не грузятся */}
+                        <img src={blankProfilePicture} alt='' className={styles.userAvatar} />
+                        <div className={styles.userDataBlock}>
+                            <div className={styles.userNameAndTag}>
+                                <p className={styles.userName}>{item.firstName} {item.lastName}</p>
+                                <p className={styles.userTag}>{item.userTag}</p>
+                            </div>
+                            <p className={styles.userDepartment}>{lang == 'ru' ? findDepartment?.valueRu : findDepartment?.valueEn}</p>
                         </div>
-                        <p className={styles.userDepartment}>{departments.find((dep) => dep.key == item.department)?.value}</p>
-                    </div>
-                </NavLink>
-            ))
+                    </NavLink>
+                )
+            })
         } else {
             return (
                 <div className={styles.notFoundBlock}>

@@ -1,0 +1,12 @@
+{
+    "ru": {
+        "header": "Какой-то сверхразум все сломал",
+        "desc": "Постараемся быстро починить",
+        "tryAgain": "Попробовать снова"
+    },
+    "en": {
+        "header": "Some genius broke everything",
+        "desc": "We'll try to fix it quickly",
+        "tryAgain": "Try again"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "ru": {
+        "header": "Поиск",
+        "inputPlaceholder": "Введите имя, тег, почту...",
+        "modalHeader": "Сортировка"
+    },
+    "en": {
+        "header": "Search",
+        "inputPlaceholder": "Type name, tag, email...",
+        "modalHeader": "Sort"
+    }
+}

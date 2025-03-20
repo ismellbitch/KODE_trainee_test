@@ -5,6 +5,7 @@ import NotFoundPage from "./Pages/NotFoundPage"
 import { Route, Routes } from "react-router"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { setTheme } from './redux/slices/themesSlice'
+import { setLanguage } from './redux/slices/languagesSlice'
 import { useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
@@ -24,6 +25,13 @@ function App() {
     } else {
       localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     }
+
+    if (localStorage.getItem('lang')) {
+      dispatch(setLanguage(localStorage.getItem('lang')));
+    } else {
+      localStorage.setItem('theme', navigator.language == 'ru' ? 'ru' : 'en');
+    }
+
     document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
   }, [])
 

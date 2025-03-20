@@ -7,11 +7,13 @@ import darkThemeSvg from '../../assets/darkTheme.svg'
 import lightThemeSvg from '../../assets/lightTheme.svg'
 import closeModalLight from '../../assets/closeModal.svg'
 import closeModalDark from '../../assets/closeModalDark.svg'
+import topAppBarText from './TopAppBarText.json'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeFilter, changeSort, changeSearchText } from '../../redux/slices/filtersSlice'
 import { toggleTheme } from '../../redux/slices/themesSlice'
+import { toggleLanguage } from '../../redux/slices/languagesSlice'
 import { RootState } from '../../redux/store'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
@@ -24,12 +26,19 @@ function TopAppBar() {
 
     const theme = useSelector((state: RootState) => state.themes?.theme)
 
+    const lang = useSelector((state: RootState) => state.languages?.language)
+
     const dispatch = useDispatch()
 
     useMemo(() => {
         if (!localStorage.getItem('theme')) {
             localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         }
+
+        if (!localStorage.getItem('lang')) {
+            localStorage.setItem('lang', navigator.language == 'ru' ? 'ru' : 'en');
+        }
+
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
     }, [])
 
@@ -37,6 +46,10 @@ function TopAppBar() {
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
         localStorage.setItem('theme', theme == 'dark' ? 'dark' : 'light ')
     }, [theme])
+
+    useEffect(() => {
+        localStorage.setItem('lang', lang == 'ru' ? 'ru' : 'en');
+    }, [lang])
 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -75,6 +88,11 @@ function TopAppBar() {
         }
     }
 
+    const toggleLanguageHandler = () => {
+        dispatch(toggleLanguage())
+        localStorage.setItem('lang', lang == 'ru' ? 'ru' : 'en')
+    }
+
     const toggleThemeHandler = () => {
         dispatch(toggleTheme())
         localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
@@ -86,6 +104,8 @@ function TopAppBar() {
 
     const closeModal = theme == 'dark' ? closeModalDark : closeModalLight;
 
+    const text = lang == 'ru' ? topAppBarText.ru : topAppBarText.en;
+
     return (
         <>
             <div className={`${styles.modal} ${isModalOpen ? styles.modalVisible : null}`} onClick={() => handleModalExit()}>
@@ -93,7 +113,7 @@ function TopAppBar() {
                     <div className={`${styles.modalBlockContent} ${isModalOpen ? styles.modalBlockVisible : null}`}>
                         <div className={`${styles.modalBlockHeader} ${isModalOpen ? styles.modalBlockVisible : null}`}>
                             <div className={styles.modalBlockHeaderBlank}></div>
-                            <h3>Сортировка</h3>
+                            <h3>{text.modalHeader}</h3>
                             <img src={closeModal} alt="" onClick={() => handleModalExit()} />
                         </div>
                         {sorts.map((item) => (
@@ -102,7 +122,7 @@ function TopAppBar() {
                                     <input type="radio" />
                                     <span className={`${styles.radioCustom} ${item.key == sortPropery ? styles.selectedRadio : null}`}></span>
                                 </div>
-                                <p>{item.value}</p>
+                                <p>{lang == 'ru' ? item.valueRu : item.valueEn}</p>
                             </div>
                         ))}
                     </div>
@@ -111,9 +131,9 @@ function TopAppBar() {
             <header className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.headerContainer}>
-                        <h2>Поиск</h2>
+                        <h2>{text.header}</h2>
                         <div className={styles.langAndThemeContainer}>
-
+                            <p className={styles.langButton} onClick={() => toggleLanguageHandler()}>{lang}</p>
                             <div className={styles.themeContainer} onClick={() => toggleThemeHandler()}>
                                 <img src={themeSvg} alt="" />
                             </div>
@@ -123,7 +143,7 @@ function TopAppBar() {
                         <img src={isInputFocused || searchText ? searchActiveSvg : searchSvg} alt="" />
                         <input type="text"
                             value={searchText}
-                            placeholder='Введи имя, тег, почту...'
+                            placeholder={text.inputPlaceholder}
                             className={styles.searchInput}
                             onFocusCapture={() => setIsInputFocused(true)}
                             onBlur={() => setIsInputFocused(false)}
@@ -136,7 +156,7 @@ function TopAppBar() {
                             <div className={`${styles.department} ${department == item.key ? styles.selectedDepartment : null}`}
                                 onClick={() => handleDepartmentChange(item.key)}
                                 key={item.key}>
-                                <p>{item.value}</p>
+                                <p>{lang == 'ru' ? item.valueRu : item.valueEn}</p>
                             </div>
                         ))}
                     </div>
