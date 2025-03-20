@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reduxjs/toolkit/query'
 
 function NotFound() {
-    const lang = useSelector((state: RootState) => state.languages?.lang)
+    const lang = useSelector((state: RootState) => state.languages?.language)
 
     const text = lang == 'ru' ? notFoundText.ru : notFoundText.en;
 
