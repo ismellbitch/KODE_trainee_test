@@ -25,7 +25,6 @@ function TopAppBar() {
     const dispatch = useDispatch()
 
     useMemo(() => {
-        console.log(localStorage.getItem('theme'))
         if (!localStorage.getItem('theme')) {
             localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         }
