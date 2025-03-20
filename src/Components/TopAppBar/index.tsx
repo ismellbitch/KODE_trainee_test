@@ -3,6 +3,8 @@ import searchSvg from '../../assets/search.svg'
 import searchActiveSvgLight from '../../assets/searchActive.svg'
 import searchActiveSvgDark from '../../assets/searchActiveDark.svg'
 import sortSvg from '../../assets/sort.svg'
+import darkThemeSvg from '../../assets/darkTheme.svg'
+import lightThemeSvg from '../../assets/lightTheme.svg'
 import closeModalLight from '../../assets/closeModal.svg'
 import closeModalDark from '../../assets/closeModalDark.svg'
 
@@ -78,6 +80,8 @@ function TopAppBar() {
         localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
     }
 
+    const themeSvg = theme == 'dark' ? darkThemeSvg : lightThemeSvg;
+
     const searchActiveSvg = theme == 'dark' ? searchActiveSvgDark : searchActiveSvgLight;
 
     const closeModal = theme == 'dark' ? closeModalDark : closeModalLight;
@@ -109,7 +113,10 @@ function TopAppBar() {
                     <div className={styles.headerContainer}>
                         <h2>Поиск</h2>
                         <div className={styles.langAndThemeContainer}>
-                            <h2 onClick={() => toggleThemeHandler()}>{theme}</h2>
+
+                            <div className={styles.themeContainer} onClick={() => toggleThemeHandler()}>
+                                <img src={themeSvg} alt="" />
+                            </div>
                         </div>
                     </div>
                     <div className={styles.searchContainer}>

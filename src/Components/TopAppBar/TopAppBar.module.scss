@@ -144,6 +144,24 @@ $content-active: #6534FF;
             .langAndThemeContainer {
                 display: flex;
                 flex-direction: row;
+                margin-bottom: 12px;
+
+                .themeContainer {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    img {
+                        width: 28px;
+                        height: 28px;
+                        margin-right: 8px;
+                    }
+
+                    p {
+                        color: var(--header-text-color);
+                        font-size: 20px;
+                    }
+                }
             }
 
         }
