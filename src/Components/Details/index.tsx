@@ -181,7 +181,7 @@ function Details() {
         </>
 
     return (
-        <section>
+        <section className={styles.detailsContainer}>
             {isLoading ? renderSkeleton : renderUserDetails()}
         </section>
     )

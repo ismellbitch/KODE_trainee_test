@@ -11,7 +11,7 @@ const DetailsSkeleton = (props) => {
             height={184}
             viewBox="0 0 220 184"
             backgroundColor={theme == 'dark' ? '#3b3838' : "#e8e8e8"}
-            foregroundColor={theme == 'dark' ? '' : "#ffffff"}
+            foregroundColor={theme == 'dark' ? '#AAAAAA' : "#ffffff"}
             {...props}
         >
             <rect x="5" y="131" rx="3" ry="3" width="210" height="28" />
