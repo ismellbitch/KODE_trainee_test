@@ -6,4 +6,37 @@
   font-family: 'Inter', sans-serif;
   user-select: none;
   -webkit-user-drag: none;
+  scrollbar-color: var(--scrollbar-color) var(--background-color);
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+:root {
+  --background-color: #FFFFFF;
+  --header-text-color: #050510;
+  --text-color: #97979B;
+  --light-text-color: #C3C3C6;
+  --selected-text-color: #050510;
+  --input-background-color: #F7F7F8;
+  --bottom-border-color: #F7F7F8;
+  --user-hover-color: #F4F4F5;
+  --user-department-color: #55555C;
+  --scrollbar-color: inherit;
+  --details-background-color: #F7F7F8;
+}
+
+[theme='dark'] {
+  --background-color: #212121;
+  --header-text-color: #EBEBEB;
+  --text-color: #AAAAAA;
+  --light-text-color: #C3C3C6;
+  --selected-text-color: #EBEBEB;
+  --input-background-color: #2C2C2C;
+  --bottom-border-color: #2C2C2C;
+  --user-hover-color: #2C2C2C;
+  --user-department-color: #979797;
+  --scrollbar-color: #323232;
+  --details-background-color: #2C2C2C;
 }

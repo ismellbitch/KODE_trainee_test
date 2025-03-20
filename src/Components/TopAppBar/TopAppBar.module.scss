@@ -1,6 +1,5 @@
-$font-black: #050510;
 $content-active: #6534FF;
-$content-grey: #F7F7F8;
+
 
 .modal {
     display: flex;
@@ -13,7 +12,7 @@ $content-grey: #F7F7F8;
     height: 100%;
     width: 100%;
     visibility: hidden;
-    background-color: rgba(5, 5, 16, 0.16);
+    background-color: rgba(0, 0, 0, 0.16);
     opacity: 0;
     transition: all 0.2s ease;
 }
@@ -24,7 +23,7 @@ $content-grey: #F7F7F8;
     width: calc(100% - 24px);
     border-radius: 20px;
     margin: 0 auto;
-    background-color: white;
+    background-color: var(--background-color);
     opacity: 0;
     flex-direction: column;
 
@@ -43,6 +42,7 @@ $content-grey: #F7F7F8;
                 font-weight: 600;
                 font-size: 20px;
                 line-height: 24px;
+                color: var(--header-text-color);
             }
 
             .modalBlockHeaderBlank {
@@ -66,6 +66,7 @@ $content-grey: #F7F7F8;
                 font-size: 16px;
                 font-weight: 500;
                 line-height: 20px;
+                color: var(--header-text-color)
             }
 
             .radioButtonBlock {
@@ -114,10 +115,11 @@ $content-grey: #F7F7F8;
 }
 
 .container {
-    border-bottom: 0.5px solid $content-grey;
-    background-color: white;
+    border-bottom: 0.5px solid var(--input-background-color);
+    background-color: var(--background-color);
     position: fixed;
     top: 0;
+    transition: 0.3s;
 
     .content {
         width: calc(100vw - 48px);
@@ -126,13 +128,26 @@ $content-grey: #F7F7F8;
         padding-top: 8px;
         align-items: center;
 
+        .headerContainer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
 
-        h2 {
-            margin-left: 8px;
-            margin-bottom: 12px;
-            color: $font-black;
-            line-height: 28px
+            h2 {
+                margin-left: 8px;
+                margin-bottom: 12px;
+                color: var(--header-text-color);
+                line-height: 28px
+            }
+
+            .langAndThemeContainer {
+                display: flex;
+                flex-direction: row;
+            }
+
         }
+
 
         .searchContainer {
             display: flex;
@@ -140,10 +155,11 @@ $content-grey: #F7F7F8;
             width: calc(100% - 24px);
             height: 24px;
             border-radius: 16px;
-            background-color: $content-grey;
+            background-color: var(--input-background-color);
             padding: 8px 12px;
             margin: 6px 0;
             flex-direction: row;
+            transition: 0.3s;
 
             .searchInput {
                 border: 0;
@@ -154,11 +170,11 @@ $content-grey: #F7F7F8;
                 width: 100%;
                 align-items: center;
                 margin: 6px 8px;
-                color: $font-black;
+                color: var(--header-text-color);
                 cursor: default;
 
                 &::placeholder {
-                    color: #C3C3C6;
+                    color: var(--light-text-color);
                     opacity: 1;
                 }
 
@@ -180,7 +196,7 @@ $content-grey: #F7F7F8;
 
             .department {
                 padding: 8px 12px;
-                color: #97979B;
+                color: var(--text-color);
                 font-weight: 500;
                 white-space: nowrap;
             }
@@ -192,7 +208,7 @@ $content-grey: #F7F7F8;
         transition: 0.03s ease-in-out;
 
         p {
-            color: $font-black;
+            color: var(--selected-text-color);
             font-weight: 600;
         }
     }

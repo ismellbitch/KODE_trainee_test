@@ -1,12 +1,15 @@
 import styles from './TopAppBar.module.scss'
 import searchSvg from '../../assets/search.svg'
-import searchActiveSvg from '../../assets/searchActive.svg'
+import searchActiveSvgLight from '../../assets/searchActive.svg'
+import searchActiveSvgDark from '../../assets/searchActiveDark.svg'
 import sortSvg from '../../assets/sort.svg'
-import exitSvg from '../../assets/exit.svg'
+import closeModalLight from '../../assets/closeModal.svg'
+import closeModalDark from '../../assets/closeModalDark.svg'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeFilter, changeSort, changeSearchText } from '../../redux/slices/filtersSlice'
+import { toggleTheme, setTheme } from '../../redux/slices/themesSlice'
 import { RootState } from '../../redux/store'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
@@ -16,7 +19,24 @@ function TopAppBar() {
     const department = useSelector((state: RootState) => state.filters?.department)
     const sortPropery = useSelector((state: RootState) => state.filters?.sortProperty)
     const searchText = useSelector((state: RootState) => state.filters?.search)
+
+    const theme = useSelector((state: RootState) => state.themes?.theme)
+
     const dispatch = useDispatch()
+
+    useMemo(() => {
+        if (localStorage.getItem('theme')) {
+            dispatch(setTheme(localStorage.getItem('theme')));
+        } else {
+            localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        }
+        document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
+    }, [])
+
+    useEffect(() => {
+        document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
+        localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
+    }, [theme])
 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -55,6 +75,15 @@ function TopAppBar() {
         }
     }
 
+    const toggleThemeHandler = () => {
+        dispatch(toggleTheme())
+        localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
+    }
+
+    const searchActiveSvg = theme == 'dark' ? searchActiveSvgDark : searchActiveSvgLight;
+
+    const closeModal = theme == 'dark' ? closeModalDark : closeModalLight;
+
     return (
         <>
             <div className={`${styles.modal} ${isModalOpen ? styles.modalVisible : null}`} onClick={() => handleModalExit()}>
@@ -63,7 +92,7 @@ function TopAppBar() {
                         <div className={`${styles.modalBlockHeader} ${isModalOpen ? styles.modalBlockVisible : null}`}>
                             <div className={styles.modalBlockHeaderBlank}></div>
                             <h3>Сортировка</h3>
-                            <img src={exitSvg} alt="" onClick={() => handleModalExit()} />
+                            <img src={closeModal} alt="" onClick={() => handleModalExit()} />
                         </div>
                         {sorts.map((item) => (
                             <div className={styles.radioBlock} key={item.key} onClick={() => handleChangeSelectedRadio(item.key)}>
@@ -77,10 +106,14 @@ function TopAppBar() {
                     </div>
                 </div>
             </div>
-            : null
             <header className={styles.container}>
                 <div className={styles.content}>
-                    <h2>Поиск</h2>
+                    <div className={styles.headerContainer}>
+                        <h2>Поиск</h2>
+                        <div className={styles.langAndThemeContainer}>
+                            <h2 onClick={() => toggleThemeHandler()}>{theme}</h2>
+                        </div>
+                    </div>
                     <div className={styles.searchContainer}>
                         <img src={isInputFocused || searchText ? searchActiveSvg : searchSvg} alt="" />
                         <input type="text"

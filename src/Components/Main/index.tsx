@@ -34,8 +34,8 @@ function Main() {
         }
     }, [])
 
-    const fetchUsers = async (): Promise<User[]> => {
-        const response = await axios.get<{ items: User[] }>(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
+    const fetchUsers = async () => {
+        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
         if (response) {
             return response.data.items;
         } else {
@@ -128,8 +128,10 @@ function Main() {
     }
 
     return (
-        <section className={styles.content}>
-            {isLoading ? skeletons : renderUsersList()}
+        <section className={styles.container}>
+            <div className={styles.content}>
+                {isLoading ? skeletons : renderUsersList()}
+            </div>
         </section>
     )
 }

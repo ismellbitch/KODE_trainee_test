@@ -1,13 +1,21 @@
-import goBackSvg from '../../assets/goBack.svg'
 import styles from './Details.module.scss'
 import axios from 'axios'
 import blank from '../../assets/blankProfilePicture.png'
-import starSvg from '../../assets/star.svg'
-import phoneSvg from '../../assets/phone.svg'
+import goBackSvgLight from '../../assets/goBack.svg'
+import goBackSvgDark from '../../assets/goBackDark.svg'
+import starSvgLight from '../../assets/star.svg'
+import starSvgDark from '../../assets/starDark.svg'
+import phoneSvgLight from '../../assets/phone.svg'
+import phoneSvgDark from '../../assets/phoneDark.svg'
 
+import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router'
-import { departments } from '../../data/departments'
 import { useQuery } from '@tanstack/react-query'
+import { User } from '../../types/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import { departments } from '../../data/departments'
+import { setTheme } from '../../redux/slices/themesSlice'
 import DetailsSkeleton from '../Skeletons/DetailsHeaderSkeleton'
 import WideParamSkeleton from '../Skeletons/WideParamSkeleton'
 import ThinParamSkeleton from '../Skeletons/ThinParamSkeleton'
@@ -15,6 +23,24 @@ import ThinParamSkeleton from '../Skeletons/ThinParamSkeleton'
 
 function Details() {
     const navigate = useNavigate();
+
+    const theme = useSelector((state: RootState) => state.themes?.theme)
+
+    const dispatch = useDispatch()
+
+    useMemo(() => {
+        if (localStorage.getItem('theme')) {
+            dispatch(setTheme(localStorage.getItem('theme')));
+        } else {
+            localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        }
+        document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
+    }, [])
+
+    useEffect(() => {
+        document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
+        localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
+    }, [theme])
 
     const fetchUsers = async () => {
         const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
@@ -29,9 +55,13 @@ function Details() {
         queryKey: ['userDetails'],
         queryFn: fetchUsers,
         select: (data) => {
-            return data.find((item) => item.id == window.location.pathname.substring(7))
+            return data.find((item: User) => item.id == window.location.pathname.substring(7))
         }
     })
+
+    const goBackSvg = theme == 'dark' ? goBackSvgDark : goBackSvgLight;
+    const starSvg = theme == 'dark' ? starSvgDark : starSvgLight;
+    const phoneSvg = theme == 'dark' ? phoneSvgDark : phoneSvgLight;
 
     const renderUserDetails = () => {
         const currentDate = new Date();
@@ -81,6 +111,8 @@ function Details() {
         const secondTwoNums = data.phone.substring(10, 12);
 
         const phoneToOutput = countryCode + ' (' + operatorCode + ') ' + threeNums + ' ' + firstTwoNums + ' ' + secondTwoNums;
+
+
 
         return (
             <>

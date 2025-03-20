@@ -1,9 +1,10 @@
 .headerContainer {
-    background-color: #F7F7F8;
+    background-color: var(--details-background-color);
 
     .headerContent {
         width: calc(100% - 48px);
         margin: 0 auto;
+        padding-top: 22px;
 
         .goBackBlock {
             display: flex;
@@ -11,13 +12,13 @@
             justify-content: center;
             width: 24px;
             height: 24px;
-            padding-top: 22px;
             margin-bottom: 26px;
             cursor: pointer;
 
             .goBackSvg {
                 width: 9px;
                 height: 15px;
+
             }
         }
 
@@ -46,12 +47,13 @@
                     font-weight: 700;
                     line-height: 28px;
                     margin-right: 4px;
+                    color: var(--header-text-color);
                 }
 
                 .tag {
                     font-size: 17px;
                     font-weight: 400;
-                    color: #97979B;
+                    color: var(--text-color);
                 }
             }
 
@@ -59,7 +61,7 @@
                 font-size: 13px;
                 font-weight: 400;
                 line-height: 16px;
-                color: #55555C;
+                color: var(--user-department-color);
                 margin-bottom: 24px;
             }
         }
@@ -80,6 +82,7 @@
     .infoContent {
         width: calc(100% - 36px);
         margin: 0 auto;
+        color: var(--header-text-color);
 
         .infoRowFirst {
             display: flex;
@@ -89,7 +92,7 @@
             height: 60px;
             margin-top: 8px;
             margin-bottom: 6px;
-            border-bottom: 1px solid #F7F7F8;
+            border-bottom: 1px solid var(--bottom-border-color);
 
             .userBirthday {
                 display: flex;
@@ -108,7 +111,6 @@
 
                 .userAge {
                     line-height: 20px;
-                    color: #97979B;
                 }
             }
         }
