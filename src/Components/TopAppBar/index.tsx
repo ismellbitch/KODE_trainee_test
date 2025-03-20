@@ -9,7 +9,7 @@ import closeModalDark from '../../assets/closeModalDark.svg'
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeFilter, changeSort, changeSearchText } from '../../redux/slices/filtersSlice'
-import { toggleTheme, setTheme } from '../../redux/slices/themesSlice'
+import { toggleTheme } from '../../redux/slices/themesSlice'
 import { RootState } from '../../redux/store'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
@@ -25,9 +25,8 @@ function TopAppBar() {
     const dispatch = useDispatch()
 
     useMemo(() => {
-        if (localStorage.getItem('theme')) {
-            dispatch(setTheme(localStorage.getItem('theme')));
-        } else {
+        console.log(localStorage.getItem('theme'))
+        if (!localStorage.getItem('theme')) {
             localStorage.setItem('theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         }
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
@@ -35,7 +34,7 @@ function TopAppBar() {
 
     useEffect(() => {
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
-        localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
+        localStorage.setItem('theme', theme == 'dark' ? 'dark' : 'light ')
     }, [theme])
 
     const [isInputFocused, setIsInputFocused] = useState(false);

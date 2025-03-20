@@ -39,7 +39,7 @@ function Details() {
 
     useEffect(() => {
         document.documentElement.setAttribute('theme', theme == 'dark' ? 'dark' : '');
-        localStorage.setItem('theme', theme == 'dark' ? 'dark' : '')
+        localStorage.setItem('theme', theme == 'dark' ? 'dark' : 'light ')
     }, [theme])
 
     const fetchUsers = async () => {

@@ -1,10 +1,7 @@
 import ContentLoader from "react-content-loader"
 
-import { useSelector } from "react-redux"
-import { RootState } from '../../redux/store'
-
 const ThinParamSkeleton = (props) => {
-    const theme = useSelector((state: RootState) => state.themes?.theme)
+    const theme = localStorage.getItem('theme')
 
     return (
         <ContentLoader

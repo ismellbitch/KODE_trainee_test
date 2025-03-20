@@ -119,7 +119,7 @@ $content-active: #6534FF;
     background-color: var(--background-color);
     position: fixed;
     top: 0;
-    transition: 0.3s;
+    transition: 0.2s;
 
     .content {
         width: calc(100vw - 48px);
@@ -159,7 +159,7 @@ $content-active: #6534FF;
             padding: 8px 12px;
             margin: 6px 0;
             flex-direction: row;
-            transition: 0.3s;
+            transition: 0.2s;
 
             .searchInput {
                 border: 0;
