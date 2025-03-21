@@ -8,7 +8,7 @@ import UsersSkeleton from '../Skeletons/UsersSkeleton'
 import { useEffect } from "react"
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFilters } from '../../redux/slices/filtersSlice'
+import { setFilters } from '../../redux/slices/filtersSlice.tsx'
 import { NavLink, useNavigate } from 'react-router'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
