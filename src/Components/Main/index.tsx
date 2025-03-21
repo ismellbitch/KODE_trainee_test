@@ -81,7 +81,8 @@ function Main() {
     const { data, isLoading } = useQuery<User[]>({
         queryKey: ['users'],
         queryFn: fetchUsers,
-        refetchInterval: 300000,
+        staleTime: 300000,
+        refetchInterval: 300000
     });
 
     useEffect(() => {

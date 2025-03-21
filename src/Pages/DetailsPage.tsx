@@ -1,5 +1,6 @@
 import Details from "../Components/Details"
 
+
 function DetailsPage() {
     return (
         <>

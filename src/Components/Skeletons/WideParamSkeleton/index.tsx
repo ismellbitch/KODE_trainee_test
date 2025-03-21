@@ -1,5 +1,6 @@
 import ContentLoader from "react-content-loader"
 
+
 const WideParamSkeleton = (props) => {
     const theme = localStorage.getItem('theme')
 

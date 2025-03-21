@@ -7,6 +7,9 @@ import starSvgLight from '../../assets/star.svg'
 import starSvgDark from '../../assets/starDark.svg'
 import phoneSvgLight from '../../assets/phone.svg'
 import phoneSvgDark from '../../assets/phoneDark.svg'
+import DetailsSkeleton from '../Skeletons/DetailsHeaderSkeleton'
+import WideParamSkeleton from '../Skeletons/WideParamSkeleton'
+import ThinParamSkeleton from '../Skeletons/ThinParamSkeleton'
 
 import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router'
@@ -16,9 +19,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { departments } from '../../data/departments'
 import { setTheme } from '../../redux/slices/themesSlice.tsx'
-import DetailsSkeleton from '../Skeletons/DetailsHeaderSkeleton'
-import WideParamSkeleton from '../Skeletons/WideParamSkeleton'
-import ThinParamSkeleton from '../Skeletons/ThinParamSkeleton'
 
 
 function Details() {
@@ -57,6 +57,8 @@ function Details() {
     const { data, isLoading } = useQuery({
         queryKey: ['userDetails'],
         queryFn: fetchUsers,
+        staleTime: 300000,
+        refetchInterval: 300000,
         select: (data) => {
             return data.find((item: User) => item.id == window.location.pathname.substring(7))
         }
