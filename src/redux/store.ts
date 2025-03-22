@@ -11,3 +11,5 @@ export const store = configureStore({
         languages: languagesReducer
     },
 });
+
+export type RootState = ReturnType<typeof store.getState>;

@@ -7,7 +7,7 @@ import { setTheme } from './redux/slices/themesSlice.tsx'
 import { setLanguage } from './redux/slices/languagesSlice.tsx'
 import { useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from '../../redux/store'
+import { RootState } from './redux/store.ts'
 
 
 function App() {

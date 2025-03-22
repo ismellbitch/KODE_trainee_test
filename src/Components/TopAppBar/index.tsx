@@ -19,6 +19,7 @@ import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
 import { onlineManager, useQuery } from '@tanstack/react-query'
 import { User } from '../../types/user.ts'
+import axios from 'axios'
 
 
 function TopAppBar() {
@@ -53,8 +54,18 @@ function TopAppBar() {
         localStorage.setItem('lang', lang == 'ru' ? 'ru' : 'en');
     }, [lang])
 
+    const fetchUsers = async () => {
+        const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
+        if (response) {
+            return response.data.items;
+        } else {
+            return [];
+        }
+    }
+
     const { data, isLoading } = useQuery<User[]>({
-        queryKey: ['users']
+        queryKey: ['users'],
+        queryFn: fetchUsers
     })
 
     onlineManager.setEventListener(setOnline => {
@@ -78,10 +89,6 @@ function TopAppBar() {
     });
 
     const [isOnline, setIsOnline] = useState(onlineManager.isOnline())
-
-    useEffect(() => {
-        console.log(isOnline)
-    }, [isOnline])
 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)

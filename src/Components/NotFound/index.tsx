@@ -4,7 +4,7 @@ import notFoundText from './NotFoundText.json'
 
 import { Link } from 'react-router'
 import { useSelector } from 'react-redux'
-import { RootState } from '@reduxjs/toolkit/query'
+import { RootState } from '../../redux/store'
 
 
 function NotFound() {

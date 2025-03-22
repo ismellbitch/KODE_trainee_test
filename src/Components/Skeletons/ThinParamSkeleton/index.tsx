@@ -1,7 +1,9 @@
 import ContentLoader from "react-content-loader"
 
+import { skeletonProps } from "../../../types/skeletonProps"
 
-const ThinParamSkeleton = (props) => {
+
+const ThinParamSkeleton = (props: skeletonProps) => {
     const theme = localStorage.getItem('theme')
 
     return (

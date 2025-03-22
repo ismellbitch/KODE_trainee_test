@@ -1,7 +1,8 @@
 import ContentLoader from "react-content-loader"
 
+import { skeletonProps } from "../../../types/skeletonProps"
 
-const DetailsSkeleton = (props) => {
+const DetailsSkeleton = (props: skeletonProps) => {
     const theme = localStorage.getItem('theme')
 
     return (

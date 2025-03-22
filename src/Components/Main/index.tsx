@@ -98,7 +98,7 @@ function Main() {
         }
     }, [department, sortProperty, searchText])
 
-    const skeletons = Array.from({ length: 12 }).map((item, index) => <UsersSkeleton className={styles.skeleton} key={index} />);
+    const skeletons = Array.from({ length: 12 }).map((_, index) => <UsersSkeleton className={styles.skeleton} key={index} />);
 
     const renderUsersList = () => {
         const usersToRender = data ? data.filter(((obj) => filterByDepartment(obj)))
