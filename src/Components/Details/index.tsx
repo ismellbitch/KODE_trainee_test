@@ -59,7 +59,7 @@ function Details() {
         staleTime: 300000,
         refetchInterval: 300000,
         select: (data) => {
-            return data.find((item: User) => item.id == window.location.pathname.substring(7))
+            return data.find((item: User) => item.id == window.location.pathname.substring(25))
         }
     })
 
@@ -76,7 +76,7 @@ function Details() {
 
     useEffect(() => {
         if (data) {
-            document.title = data?.firstName + ' ' + data?.lastName
+            document.title = data.firstName + ' ' + data.lastName
         } else {
             document.title = loadingText[0]
         }
@@ -89,6 +89,11 @@ function Details() {
     const renderUserDetails = () => {
         const currentDate = new Date();
         const birthdayDate = new Date(data.birthday)
+
+        // const months = ["января", "февраля", "марта",
+        //     "апреля", "мая", "июня",
+        //     "июля", "августа", "сентября",
+        //     "октября", "ноября", "декабря"];
 
         const monthsLocalization = [{
             ru: [
