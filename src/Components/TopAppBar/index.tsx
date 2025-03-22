@@ -151,7 +151,7 @@ function TopAppBar() {
                 <div className={styles.headerContainer}>
                     <h2>{text.header}</h2>
                     <div className={styles.langAndThemeContainer}>
-                        <p className={styles.langButton} onClick={() => toggleLanguageHandler()}>{lang}</p>
+                        <p className={styles.langButton} onClick={() => toggleLanguageHandler()}>{lang.slice(0, 2)}</p>
                         <div className={styles.themeContainer} onClick={() => toggleThemeHandler()}>
                             <img src={themeSvg} alt="" />
                         </div>
