@@ -44,7 +44,6 @@ function Details() {
         localStorage.setItem('theme', theme == 'dark' ? 'dark' : 'light ')
     }, [theme])
 
-
     const fetchUsers = async () => {
         const response = await axios.get(`https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__example=all`);
         if (response) {
@@ -64,6 +63,25 @@ function Details() {
         }
     })
 
+    const loadingLocalization = [{
+        ru: [
+            "Загрузка"
+        ],
+        en: [
+            "Loading"
+        ]
+    }]
+
+    const loadingText = lang == 'ru' ? loadingLocalization[0].ru : loadingLocalization[0].en
+
+    useEffect(() => {
+        if (data) {
+            document.title = data?.firstName + ' ' + data?.lastName
+        } else {
+            document.title = loadingText[0]
+        }
+    }, [data])
+
     const goBackSvg = theme == 'dark' ? goBackSvgDark : goBackSvgLight;
     const starSvg = theme == 'dark' ? starSvgDark : starSvgLight;
     const phoneSvg = theme == 'dark' ? phoneSvgDark : phoneSvgLight;
@@ -71,11 +89,6 @@ function Details() {
     const renderUserDetails = () => {
         const currentDate = new Date();
         const birthdayDate = new Date(data.birthday)
-
-        // const months = ["января", "февраля", "марта",
-        //     "апреля", "мая", "июня",
-        //     "июля", "августа", "сентября",
-        //     "октября", "ноября", "декабря"];
 
         const monthsLocalization = [{
             ru: [
