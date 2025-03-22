@@ -2,11 +2,15 @@
     "ru": {
         "header": "Поиск",
         "inputPlaceholder": "Введите имя, тег, почту...",
-        "modalHeader": "Сортировка"
+        "modalHeader": "Сортировка",
+        "error": "Не могу обновить данные. Проверь соединение с интернетом.",
+        "loading": "Секундочку, гружусь..."
     },
     "en": {
         "header": "Search",
         "inputPlaceholder": "Type name, tag, email...",
-        "modalHeader": "Sort"
+        "modalHeader": "Sort",
+        "error": "Can't update data. Check your internet connection.",
+        "loading": "Loading, wait a second..."
     }
 }

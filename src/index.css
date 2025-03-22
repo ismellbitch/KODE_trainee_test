@@ -26,6 +26,8 @@ body {
   --user-department-color: #55555C;
   --scrollbar-color: inherit;
   --details-background-color: #F7F7F8;
+  --offline-error-color: #F44336;
+  --loading-color: #6534FF;
 }
 
 [theme='dark'] {
@@ -40,4 +42,6 @@ body {
   --user-department-color: #979797;
   --scrollbar-color: #323232;
   --details-background-color: #2C2C2C;
+  --offline-error-color: #F44336;
+  --loading-color: #6534FF;
 }

@@ -5,9 +5,10 @@ import NotFoundPage from "./Pages/NotFoundPage"
 import { Route, Routes } from "react-router"
 import { setTheme } from './redux/slices/themesSlice.tsx'
 import { setLanguage } from './redux/slices/languagesSlice.tsx'
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from '../../redux/store'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 
 function App() {

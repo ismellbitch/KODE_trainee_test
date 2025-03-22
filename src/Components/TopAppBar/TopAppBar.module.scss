@@ -121,7 +121,7 @@ $content-active: #6534FF;
     top: 0;
     transition: 0.2s;
 
-    .content {
+    .contentSearch {
         width: calc(100vw - 48px);
         margin: 0 24px;
         margin-top: 8px;
@@ -146,7 +146,6 @@ $content-active: #6534FF;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 12px;
                 width: 80px;
 
                 .langButton {
@@ -199,6 +198,44 @@ $content-active: #6534FF;
                 }
             }
         }
+
+
+    }
+
+    .contentError {
+        background-color: var(--offline-error-color);
+        padding: 16px 32px;
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: white;
+            margin-bottom: 7px;
+            height: 20px;
+        }
+    }
+
+    .contentLoading {
+        background-color: var(--loading-color);
+        padding: 16px 32px;
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: white;
+            margin-bottom: 7px;
+        }
+    }
+
+    .contentDepartments {
+        width: calc(100vw - 48px);
+        margin: 0 24px;
 
         .departmentsContainer {
             display: flex;

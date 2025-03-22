@@ -17,6 +17,8 @@ import { toggleLanguage } from '../../redux/slices/languagesSlice.tsx'
 import { RootState } from '../../redux/store'
 import { departments } from '../../data/departments'
 import { sorts } from '../../data/sorts'
+import { onlineManager, useQuery } from '@tanstack/react-query'
+import { User } from '../../types/user.ts'
 
 
 function TopAppBar() {
@@ -50,6 +52,36 @@ function TopAppBar() {
     useEffect(() => {
         localStorage.setItem('lang', lang == 'ru' ? 'ru' : 'en');
     }, [lang])
+
+    const { data, isLoading } = useQuery<User[]>({
+        queryKey: ['users']
+    })
+
+    onlineManager.setEventListener(setOnline => {
+        const handleOnline = () => {
+            setOnline(true);
+            setIsOnline(true)
+        }
+
+        const handleOffline = () => {
+            setOnline(false);
+            setIsOnline(false)
+        }
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    });
+
+    const [isOnline, setIsOnline] = useState(onlineManager.isOnline())
+
+    useEffect(() => {
+        console.log(isOnline)
+    }, [isOnline])
 
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -106,6 +138,51 @@ function TopAppBar() {
 
     const text = lang == 'ru' ? topAppBarText.ru : topAppBarText.en;
 
+    const renderSearch = () => {
+        return (
+            <div className={styles.contentSearch}>
+                <div className={styles.headerContainer}>
+                    <h2>{text.header}</h2>
+                    <div className={styles.langAndThemeContainer}>
+                        <p className={styles.langButton} onClick={() => toggleLanguageHandler()}>{lang}</p>
+                        <div className={styles.themeContainer} onClick={() => toggleThemeHandler()}>
+                            <img src={themeSvg} alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.searchContainer}>
+                    <img src={isInputFocused || searchText ? searchActiveSvg : searchSvg} alt="" />
+                    <input type="text"
+                        value={searchText}
+                        placeholder={text.inputPlaceholder}
+                        className={styles.searchInput}
+                        onFocusCapture={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                        onChange={(event) => handleSearchText(event.target.value)} />
+                    <img src={sortSvg} alt="" onClick={() => handleModalOpen()} />
+                </div>
+            </div>
+        )
+    }
+
+    const renderLoadingError = () => {
+        return (
+            <div className={styles.contentError}>
+                <h2>{text.header}</h2>
+                <p>{text.error}</p>
+            </div>
+        )
+    }
+
+    const renderLoading = () => {
+        return (
+            <div className={styles.contentLoading}>
+                <h2>{text.header}</h2>
+                <p>{text.loading}</p>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className={`${styles.modal} ${isModalOpen ? styles.modalVisible : null}`} onClick={() => handleModalExit()}>
@@ -129,28 +206,16 @@ function TopAppBar() {
                 </div>
             </div>
             <header className={styles.container}>
-                <div className={styles.content}>
-                    <div className={styles.headerContainer}>
-                        <h2>{text.header}</h2>
-                        <div className={styles.langAndThemeContainer}>
-                            <p className={styles.langButton} onClick={() => toggleLanguageHandler()}>{lang}</p>
-                            <div className={styles.themeContainer} onClick={() => toggleThemeHandler()}>
-                                <img src={themeSvg} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.searchContainer}>
-                        <img src={isInputFocused || searchText ? searchActiveSvg : searchSvg} alt="" />
-                        <input type="text"
-                            value={searchText}
-                            placeholder={text.inputPlaceholder}
-                            className={styles.searchInput}
-                            onFocusCapture={() => setIsInputFocused(true)}
-                            onBlur={() => setIsInputFocused(false)}
-                            onChange={(event) => handleSearchText(event.target.value)} />
-                        <img src={sortSvg} alt="" onClick={() => handleModalOpen()} />
-                    </div>
-
+                {(() => {
+                    if (isOnline && data) {
+                        return renderSearch()
+                    } else if (!isOnline) {
+                        return renderLoadingError()
+                    } else if (isOnline && isLoading) {
+                        return renderLoading()
+                    };
+                })()}
+                <div className={styles.contentDepartments}>
                     <div className={styles.departmentsContainer}>
                         {departments.map((item) => (
                             <div className={`${styles.department} ${department == item.key ? styles.selectedDepartment : null}`}
