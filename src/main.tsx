@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-            <BrowserRouter>
+            <BrowserRouter basename='KODE_trainee_test'>
                 <App />
             </BrowserRouter>
         </Provider>
