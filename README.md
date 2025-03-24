@@ -35,3 +35,6 @@
     - Перевод элементов интерфейса
 8. #### Сохранение состояния
     - Сохранение параметров в URL
+
+## GitHub Pages
+https://ismellbitch.github.io/KODE_trainee_test
